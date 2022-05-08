@@ -1,15 +1,18 @@
 # Wetube Reloaded
 
+# Planning URL
+
 / -> Home
 /join -> Join
 /login -> Login
 /seach -> Search
 
-/edit-user -> /users/edit -> Edit user
-/delete-user -> /users/delete -> Delete user
+/users/:id -> See user
+/users/logout -> Log Out
+/edit-user -> /users/edit -> Edit My Profile
+/delete-user -> /users/delete -> Delete My Profile
 
-/watch-video -> /videos/watch -> Watch Video
-/edit-video -> /videos/edit -> Edit Video
-/delete-video -> /videos/delete -> Delete Video
-/comment-on-video -> /videos/comments -> Comment on a video
-/comment-delete-video -> /videos/comments/delete -> Delete a Comment of a Video
+/watch-video -> /videos/:id -> Watch Video
+/edit-video -> /videos/:id/edit -> Edit Video
+/delete-video -> /videos/:id/delete -> Delete Video
+/upload-video -> /videos/upload -> Uploda Video
