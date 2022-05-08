@@ -11,6 +11,5 @@
 /watch-video -> /videos/watch -> Watch Video
 /edit-video -> /videos/edit -> Edit Video
 /delete-video -> /videos/delete -> Delete Video
-
 /comment-on-video -> /videos/comments -> Comment on a video
 /comment-delete-video -> /videos/comments/delete -> Delete a Comment of a Video
