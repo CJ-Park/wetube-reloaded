@@ -1,4 +1,9 @@
-export const recommend = (req, res) => res.render("home", {pageTitle: "Home"});
+const fakeUser = {
+    username: "CJ",
+    loggedIn: false,
+}
+
+export const recommend = (req, res) => res.render("home", {pageTitle: "Home", fakeUser});
 export const watch = (req, res) => res.render("watch", {pageTitle: "Watch"});
 export const edit = (req, res) => res.render("edit", {pageTitle: "Edit"});
 export const search = (req, res) => res.send("Search Video");
