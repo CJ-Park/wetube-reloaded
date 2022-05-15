@@ -60,7 +60,7 @@ export const postUpload = (req, res) => {
         comments: 0,
         createdAt: "just now",
         views: 0,
-        id: videos.length,
+        id: videos.length + 1,
     });
     return res.redirect("/");
 };
