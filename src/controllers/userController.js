@@ -141,6 +141,80 @@ export const logout = (req, res) => {
     return res.redirect("/");
 };
 
-export const edit = (req, res) => res.send("Edit User");
+export const getEdit = (req, res) => {
+    return res.render("edit-profile", {pageTitle: "Edit Profile"});
+};
+
+export const postEdit = async(req, res) => {
+    const {
+        session: {
+            user: {_id, avatarUrl},
+        },
+        body: {name, username, email, location},
+        file,
+    } = req;
+    const duplicateUsername = await User.findOne({username});
+    const duplicateEmail = await User.findOne({email});
+    console.log(req.session.user.name);
+    console.log(duplicateUsername);
+    if(duplicateUsername && duplicateUsername.name !== req.session.user.name) {
+        return res.status(400).render("edit-profile", {
+            pageTitle: "Edit Profile",
+            errorMsg: "The username is already in use"
+        })
+    }
+    if(duplicateEmail && duplicateEmail.email !== req.session.user.email) {
+        return res.status(400).render("edit-profile", {
+            pageTitle: "Edit Profile",
+            errorMsg: "The email is already in use"
+        })
+    }
+    const updatedUser = await User.findByIdAndUpdate(_id, 
+        {
+        avatarUrl: file ? file.path : avatarUrl,
+        name,
+        username,
+        email,
+        location,
+        },
+        {new: true}
+    );
+    req.session.user = updatedUser;
+    return res.redirect("/users/edit");
+};
+
+export const getEditPassword = (req, res) => {
+    if(req.session.socialOnly) {
+        return res.redirect("/");
+    }
+    return res.render("users/edit-password", {pageTitle: "Edit Password"});
+}
+
+export const postEditPassword = async(req, res) => {
+    const {
+        session: {
+            user: {_id},
+        },
+        body: {oldPass, newPass, newPass2},
+    } = req;
+    const user = await User.findById(_id);
+    const ok = await bcrypt.compare(oldPass, user.password);
+    if(!ok) {
+        return res.status(400).render("users/edit-password", {
+            pageTitle: "Edit Password", 
+            errorMsg: "The current password is incorrect",
+        });
+    }
+    if(newPass !== newPass2) {
+        return res.status(400).render("users/edit-password", {
+            pageTitle: "Edit Password", 
+            errorMsg: "The new password does not match"
+        });
+    }
+    user.password = newPass;
+    await user.save();
+
+    return res.redirect("/users/logout");
+}
 
 export const see = (req, res) => res.send("See User Profile");
