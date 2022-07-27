@@ -88,6 +88,7 @@ const hideControls = () => {
 	videoControls.classList.remove("showing");
 };
 
+// 손보기 => 동작 이상함
 const handleMouseMove = () => {
 	if (controlsTimeout) {
 		clearTimeout(controlsTimeout);
